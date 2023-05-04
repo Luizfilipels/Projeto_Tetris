@@ -1,6 +1,5 @@
 package br.inatel.projetofinal.tetris.gui;
 
-import br.inatel.projetofinal.tetris.areajogo.GameArea;
 import javax.swing.JFrame;
 
 public class GameForm extends JFrame {
