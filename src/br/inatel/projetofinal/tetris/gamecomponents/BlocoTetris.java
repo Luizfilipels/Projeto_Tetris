@@ -19,5 +19,11 @@ public class BlocoTetris {
         return cor;
     }
     
+    public int getAltura() {
+        return forma.length;
+    }
     
+    public int getLargura() {
+        return forma[0].length;
+    }
 }
