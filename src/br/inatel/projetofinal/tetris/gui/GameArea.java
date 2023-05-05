@@ -29,6 +29,23 @@ public class GameArea extends JPanel {
     
     private void gerarBloco() {
         bloco = new BlocoTetris(new int[][] { {1,0}, {1,0}, {1,1} }, Color.GREEN);
+        bloco.spawn(gridColunas);
+    }
+    
+    //"""Gravidade""" do bloco
+    public void gravidadeBloco() {
+        //Verifica se o bloco chegou no final
+        if(checarFinal() == false) {
+            return;
+        }
+        
+        bloco.moverParaBaixo();
+        repaint();
+    }
+    
+    //Verificar se o bloco chegou no final da área do jogo
+    private boolean checarFinal() {
+        return bloco.inferior() != gridLinhas;
     }
     
     //metodo para desenhar o bloco em formato de L na GameArea (considerando como 1 <= pintado ; 0 <= não pintado
@@ -41,12 +58,16 @@ public class GameArea extends JPanel {
         for(int i = 0; i < alt; i++) {
             for(int j = 0; j < larg; j++) {
                 if(forma[i][j] == 1) {
+                    //X e Y representa o local onde o bloco vai spawnar
+                    int x = (bloco.getX() + j) * gridTamanhoCelula;
+                    int y = (bloco.getY() + i) * gridTamanhoCelula;
+                    
                     g.setColor(c);
-                    g.fillRect(j * gridTamanhoCelula, i * gridTamanhoCelula, gridTamanhoCelula, gridTamanhoCelula);
+                    g.fillRect(x, y, gridTamanhoCelula, gridTamanhoCelula);
                     
                     //Para fazer as linhas do bloco do tetris, tem que setar a cor para preto
                     g.setColor(Color.black);
-                    g.drawRect(j * gridTamanhoCelula, i * gridTamanhoCelula, gridTamanhoCelula, gridTamanhoCelula);
+                    g.drawRect(x, y, gridTamanhoCelula, gridTamanhoCelula);
                 }
             }
         }
