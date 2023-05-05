@@ -13,13 +13,16 @@ public class GameThread extends Thread {
     @SuppressWarnings("SleepWhileInLoop")
     public void run() {
         while(true) {
-            try {
-                ga.gravidadeBloco();
-                Thread.sleep(1000);
-            } catch (InterruptedException ex) {
-                java.util.logging.Logger.getLogger(GameThread.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            }
             
+            ga.gerarBloco();
+            
+            while(ga.gravidadeBloco()) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    java.util.logging.Logger.getLogger(GameThread.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                }                
+            }
         }
     }
 }
