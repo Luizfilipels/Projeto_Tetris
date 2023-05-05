@@ -1,14 +1,25 @@
 package br.inatel.projetofinal.tetris.gui;
 
+import br.inatel.projetofinal.tetris.gamecomponents.GameThread;
 import javax.swing.JFrame;
 
 public class GameForm extends JFrame {
-
+    
+    private GameArea ga;
+    
     public GameForm() {
         initComponents();
         
         //Instanciando a area do jogo no form
-        this.add(new GameArea(gameAreaPlaceholder, 10));
+        ga = new GameArea(gameAreaPlaceholder, 10);
+        this.add(ga);
+        
+        iniciarJogo();
+    }
+    
+    //Inicializando a Thread do jogo
+    public void iniciarJogo() {
+        new GameThread(ga).start();
     }
 
     @SuppressWarnings("unchecked")
