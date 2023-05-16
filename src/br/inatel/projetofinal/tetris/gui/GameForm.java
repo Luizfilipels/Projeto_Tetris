@@ -1,7 +1,12 @@
 package br.inatel.projetofinal.tetris.gui;
 
 import br.inatel.projetofinal.tetris.gamecomponents.GameThread;
+import java.awt.event.ActionEvent;
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
 import javax.swing.JFrame;
+import javax.swing.KeyStroke;
 
 public class GameForm extends JFrame {
     
@@ -14,8 +19,48 @@ public class GameForm extends JFrame {
         ga = new GameArea(gameAreaPlaceholder, 10);
         this.add(ga);
         
+        iniciarControles();
         iniciarJogo();
     }
+    
+    //Controles do jogo
+    private void iniciarControles() {
+        InputMap im = this.getRootPane().getInputMap();
+        ActionMap am = this.getRootPane().getActionMap();
+        
+        im.put(KeyStroke.getKeyStroke("RIGHT"), "right");
+        im.put(KeyStroke.getKeyStroke("LEFT"), "left");
+        im.put(KeyStroke.getKeyStroke("UP"), "up");
+        im.put(KeyStroke.getKeyStroke("DOWN"), "down");
+        
+        am.put("right", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ga.moverBlocoDireita();
+            }
+        });
+        
+        am.put("left", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ga.moverBlocoEsquerda();
+            }
+        });
+        
+        am.put("up", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ga.rotacionarBloco();
+            }
+        });
+        
+        am.put("down", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ga.droparBloco();
+            }
+        });
+    }    
     
     //Inicializando a Thread do jogo
     public void iniciarJogo() {

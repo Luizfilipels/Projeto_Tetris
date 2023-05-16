@@ -7,10 +7,10 @@ import javax.swing.JPanel;
 
 public class GameArea extends JPanel {
     
-    private int gridLinhas;
-    private int gridColunas;
-    private int gridTamanhoCelula;
-    private Color[][] fundo;
+    private final int gridLinhas;
+    private final int gridColunas;
+    private final int gridTamanhoCelula;
+    private final Color[][] fundo;
     
     private BlocoTetris bloco;
     
@@ -44,12 +44,138 @@ public class GameArea extends JPanel {
             bloco.moverParaBaixo();
             repaint();
             return true;
-        }
+        } 
     }
+
+    //metodos de movimento do bloco
+    
+    public void moverBlocoDireita() {
+        if(checarDir() == false) {
+            return;
+        }
+        bloco.moverLadoDireito();
+        repaint();
+    }
+    
+    public void moverBlocoEsquerda() {
+        if(checarEsq() == false) {
+            return;
+        }
+        bloco.moverLadoEsquerdo();
+        repaint();
+    }
+    
+    public void droparBloco() {
+        while(checarFinal()) {
+            bloco.moverParaBaixo();
+        }
+        repaint();
+    }
+    
+    public void rotacionarBloco() {
+        bloco.rotacionar();
+        repaint();
+    }  
     
     //Verificar se o bloco chegou no final da área do jogo
     private boolean checarFinal() {
-        return bloco.inferior() != gridLinhas;
+        if(bloco.inferior() == gridLinhas) {
+            return false;
+        }
+        
+        /*
+        Esse monte de codigo abaixo serve para verificar se o quadrado do grid abaixo é nulo ou não.
+        O fato dele ser nulo, significa que não tem nenhum bloco ""pintado"" nesse local, e significa
+        que o bloco pode mover para baixo, quando ele detecta que tem 0 ou 1, ele para de mover
+        */
+        int[][]forma = bloco.getForma();
+        int a = bloco.getAltura();
+        int l = bloco.getLargura();
+        
+        for(int col=0; col < l; col++) {
+            for(int lin=a-1;lin >= 0;lin--) {
+                if(forma[lin][col] != 0) {
+                    int x = col + bloco.getX();
+                    int y = lin + bloco.getY() + 1;
+                    if(y < 0) {
+                        break;
+                    }
+                    if(fundo[y][x] != null) {
+                        return false;
+                    }
+                    break;
+                }
+            }
+        }
+        
+        return true;
+    }
+    
+    private boolean checarEsq() {
+        if(bloco.getBordaEsq() == 0) {
+            return false;
+        }
+        
+        /*
+        Esse monte de codigo abaixo serve para verificar se o quadrado do grid abaixo é nulo ou não.
+        O fato dele ser nulo, significa que não tem nenhum bloco ""pintado"" nesse local, e significa
+        que o bloco pode mover para baixo, quando ele detecta que tem 0 ou 1, ele para de mover
+        */
+        int[][]forma = bloco.getForma();
+        int a = bloco.getAltura();
+        int l = bloco.getLargura();
+        
+        for(int lin=0; lin < a; lin++) {
+            for(int col=0;col < l ;col++) {
+                if(forma[lin][col] != 0) {
+                    int x = col + bloco.getX() - 1;
+                    int y = lin + bloco.getY();
+                    if(y < 0) {
+                        break;
+                    }
+                    if(fundo[y][x] != null) {
+                        return false;
+                    }
+                    break;
+                }
+            }
+        }
+        
+        return true;
+    }
+    
+    private boolean checarDir() {
+        if(bloco.getBordaDir() == gridColunas) {
+            return false;
+        }
+        
+        /*
+        Esse monte de codigo abaixo serve para verificar se o quadrado do grid abaixo é nulo ou não.
+        O fato dele ser nulo, significa que não tem nenhum bloco ""pintado"" nesse local, e significa
+        que o bloco pode mover para baixo, quando ele detecta que tem 0 ou 1, ele para de mover
+        */
+        int[][]forma = bloco.getForma();
+        int a = bloco.getAltura();
+        int l = bloco.getLargura();
+        
+        for(int lin=0; lin < a; lin++) {
+            for(int col= l - 1;col >= 0 ;col--) {
+                if(forma[lin][col] != 0) {
+                    int x = col + bloco.getX() + 1;
+                    int y = lin + bloco.getY();
+                    if(y < 0) {
+                        break;
+                    }
+                    if(fundo[y][x] != null) {
+                        return false;
+                    }
+                    break;
+                }
+            }
+        }
+        
+        
+        return true;
     }
     
     //Mover o bloco para o background do jogo
