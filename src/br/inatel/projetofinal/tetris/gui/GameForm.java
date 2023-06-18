@@ -64,7 +64,15 @@ public class GameForm extends JFrame {
     
     //Inicializando a Thread do jogo
     public void iniciarJogo() {
-        new GameThread(ga).start();
+        new GameThread(ga, this).start();
+    }
+    
+    public void atualizaPontos(int pontos) {
+        scoreDisplay.setText("Pontos: " + pontos);
+    }
+    
+    public void atualizaNivel(int nivel) {
+        levelDisplay.setText("Nivel: " + nivel);
     }
 
     @SuppressWarnings("unchecked")
@@ -72,6 +80,8 @@ public class GameForm extends JFrame {
     private void initComponents() {
 
         gameAreaPlaceholder = new javax.swing.JPanel();
+        scoreDisplay = new javax.swing.JLabel();
+        levelDisplay = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -90,20 +100,35 @@ public class GameForm extends JFrame {
             .addGap(0, 298, Short.MAX_VALUE)
         );
 
+        scoreDisplay.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        scoreDisplay.setText("Pontos: 0");
+
+        levelDisplay.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        levelDisplay.setText("Nivel: 1");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(150, Short.MAX_VALUE)
+                .addContainerGap(108, Short.MAX_VALUE)
                 .addComponent(gameAreaPlaceholder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(150, 150, 150))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(scoreDisplay)
+                    .addComponent(levelDisplay))
+                .addGap(101, 101, 101))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(gameAreaPlaceholder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(scoreDisplay)
+                        .addGap(26, 26, 26)
+                        .addComponent(levelDisplay))
+                    .addComponent(gameAreaPlaceholder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -120,5 +145,7 @@ public class GameForm extends JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel gameAreaPlaceholder;
+    private javax.swing.JLabel levelDisplay;
+    private javax.swing.JLabel scoreDisplay;
     // End of variables declaration//GEN-END:variables
 }
