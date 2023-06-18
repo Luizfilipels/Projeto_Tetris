@@ -34,11 +34,20 @@ public class GameArea extends JPanel {
         bloco.spawn(gridColunas);
     }
     
+    //Função para checar se o bloco está fora do grid, tentei fazer um try catch, mas fiquei horas e horas
+    //e não sai do lugar, 100% burrice.
+    public boolean isBlocoForaDoGrid() {
+        if(bloco.getY() < 0) {
+            bloco = null;
+            return true;
+        }
+        return false;
+    }
+    
     //"""Gravidade""" do bloco
     public boolean gravidadeBloco() {
         //Verifica se o bloco chegou no final
         if(checarFinal() == false) {
-            moverParaFundo();
             return false;
         } else {
             bloco.moverParaBaixo();
@@ -50,6 +59,7 @@ public class GameArea extends JPanel {
     //metodos de movimento do bloco
     
     public void moverBlocoDireita() {
+        if(bloco == null) return;
         if(checarDir() == false) {
             return;
         }
@@ -58,6 +68,7 @@ public class GameArea extends JPanel {
     }
     
     public void moverBlocoEsquerda() {
+        if(bloco == null) return;
         if(checarEsq() == false) {
             return;
         }
@@ -66,6 +77,7 @@ public class GameArea extends JPanel {
     }
     
     public void droparBloco() {
+        if(bloco == null) return;
         while(checarFinal()) {
             bloco.moverParaBaixo();
         }
@@ -73,6 +85,7 @@ public class GameArea extends JPanel {
     }
     
     public void rotacionarBloco() {
+        if(bloco == null) return;
         bloco.rotacionar();
         repaint();
     }  
@@ -178,8 +191,52 @@ public class GameArea extends JPanel {
         return true;
     }
     
+    public int limparLinha() {
+        boolean linhaCompleta;
+        int linhasLimpas = 0;
+        
+        for(int l = gridLinhas -1; l >= 0; l--) {
+            linhaCompleta = true;
+            for(int c = 0; c < gridColunas; c++) {
+                if(fundo[l][c] == null) {
+                    linhaCompleta = false;
+                    break;
+                }
+            }
+            
+            //Se o boolean linha completa for true, ele vai limpar a respectiva linha
+            if(linhaCompleta) {
+                linhasLimpas++;
+                limpaLinha(l);
+                shiftDown(l);
+                limpaLinha(0); //Para limpar a linha 0, afinal ela shiftou tudo pra baixo.
+                
+                l++; //Yeah Mr. White, Science.
+                
+                repaint();
+            }
+        }
+        return linhasLimpas;
+    }
+    
+    private void limpaLinha(int l) {
+        for(int i = 0;i < gridColunas; i++) {
+            fundo[l][i] = null;
+        }        
+    }
+    
+    //Vai pegar tudo que está na linha de cima e jogar para a linha debaixo
+    //após limpar ela respectivamente.
+    private void shiftDown(int l) {
+        for(int linha = l; linha >0; linha--) {
+            for(int col = 0; col < gridColunas; col++) {
+                fundo[linha][col] = fundo[linha - 1][col];
+            }
+        }
+    }
+    
     //Mover o bloco para o background do jogo
-    private void moverParaFundo() {
+    public void moverParaFundo() {
         int[][] forma = bloco.getForma();
         int a = bloco.getAltura();
         int l = bloco.getLargura();
