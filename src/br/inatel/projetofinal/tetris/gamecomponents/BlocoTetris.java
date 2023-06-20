@@ -1,6 +1,7 @@
 package br.inatel.projetofinal.tetris.gamecomponents;
 
 import java.awt.Color;
+import java.util.Random;
 
 public class BlocoTetris {
     private int[][] forma;
@@ -9,10 +10,11 @@ public class BlocoTetris {
     private int[][][] formasBloco;
     private int estadoRotBloco;
     
+    private Color[] coresDisponiveis = {Color.blue,Color.orange,Color.red,Color.green};
+    
     //Construtor
-    public BlocoTetris(int[][] forma, Color cor) {
+    public BlocoTetris(int[][] forma) {
         this.forma = forma;
-        this.cor = cor;
         iniciarFormasBloco();
     }
     
@@ -37,11 +39,15 @@ public class BlocoTetris {
     }
     
     public void spawn(int TamanhoGrid) {
-        estadoRotBloco = 0;
+        Random r = new Random();
+        
+        estadoRotBloco = r.nextInt(forma.length);
         forma = formasBloco[estadoRotBloco];
         
         y = -getAltura();
-        x = (TamanhoGrid -getLargura()) / 2;
+        x = r.nextInt(TamanhoGrid - getLargura());
+        
+        cor = coresDisponiveis[r.nextInt(coresDisponiveis.length)];
     }
 
     public int[][] getForma() {
@@ -63,6 +69,16 @@ public class BlocoTetris {
     public int getX() {
         return x;
     }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+    
+    
 
     public int getY() {
         return y;

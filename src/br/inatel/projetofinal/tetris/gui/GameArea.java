@@ -1,8 +1,10 @@
 package br.inatel.projetofinal.tetris.gui;
 
+import br.inatel.projetofinal.tetris.blocos.*;
 import br.inatel.projetofinal.tetris.gamecomponents.BlocoTetris;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Random;
 import javax.swing.JPanel;
 
 public class GameArea extends JPanel {
@@ -11,6 +13,8 @@ public class GameArea extends JPanel {
     private final int gridColunas;
     private final int gridTamanhoCelula;
     private final Color[][] fundo;
+    
+    private BlocoTetris[] blocos;
     
     private BlocoTetris bloco;
     
@@ -26,11 +30,22 @@ public class GameArea extends JPanel {
         gridLinhas = this.getBounds().height / gridTamanhoCelula;
         
         fundo = new Color[gridLinhas][gridColunas];
-  
+        
+        
+        blocos = new BlocoTetris[]{ new IShape(),
+                                    new JShape(),
+                                    new LShape(),
+                                    new OShape(),
+                                    new SShape(),
+                                    new TShape(),
+                                    new ZShape()
+        };
     }
     
     public void gerarBloco() {
-        bloco = new BlocoTetris(new int[][] { {1,0}, {1,0}, {1,1} }, Color.GREEN);
+        Random r = new Random();
+        
+        bloco = blocos[r.nextInt(blocos.length)];
         bloco.spawn(gridColunas);
     }
     
@@ -87,6 +102,11 @@ public class GameArea extends JPanel {
     public void rotacionarBloco() {
         if(bloco == null) return;
         bloco.rotacionar();
+        
+        if(bloco.getBordaEsq() < 0) bloco.setX(0);
+        if(bloco.getBordaDir() >= gridColunas) bloco.setX(gridColunas - bloco.getLargura());
+        if(bloco.inferior() >= gridLinhas) bloco.setY(gridLinhas - bloco.getAltura());
+        
         repaint();
     }  
     
