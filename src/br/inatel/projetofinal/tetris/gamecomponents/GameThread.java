@@ -1,5 +1,6 @@
 package br.inatel.projetofinal.tetris.gamecomponents;
 
+import br.inatel.projetofinal.tetris.Main;
 import br.inatel.projetofinal.tetris.gui.GameArea;
 import br.inatel.projetofinal.tetris.gui.GameForm;
 
@@ -15,6 +16,8 @@ public class GameThread extends Thread {
     public GameThread(GameArea ga, GameForm gf) {
         this.ga = ga;
         this.gf = gf;
+        gf.atualizaPontos(score);
+        gf.atualizaNivel(level);
     }
     
     @Override
@@ -28,12 +31,13 @@ public class GameThread extends Thread {
                 try {
                     Thread.sleep(vel);
                 } catch (InterruptedException ex) {
-                    java.util.logging.Logger.getLogger(GameThread.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                    return;
+                    //java.util.logging.Logger.getLogger(GameThread.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
                 }                
             }
             //Verificar no game thread se o bloco saiu do grid para assim mostrar o GameOver
             if(ga.isBlocoForaDoGrid()) {
-                System.out.println("Fim de jogo.");
+                Main.fimDeJogo(score);
                 break;
             }
             ga.moverParaFundo();

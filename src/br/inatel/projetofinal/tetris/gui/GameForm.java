@@ -1,5 +1,6 @@
 package br.inatel.projetofinal.tetris.gui;
 
+import br.inatel.projetofinal.tetris.Main;
 import br.inatel.projetofinal.tetris.gamecomponents.GameThread;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
@@ -11,6 +12,7 @@ import javax.swing.KeyStroke;
 public class GameForm extends JFrame {
     
     private GameArea ga;
+    private GameThread gt;
     
     public GameForm() {
         initComponents();
@@ -20,7 +22,6 @@ public class GameForm extends JFrame {
         this.add(ga);
         
         iniciarControles();
-        iniciarJogo();
     }
     
     //Controles do jogo
@@ -64,7 +65,11 @@ public class GameForm extends JFrame {
     
     //Inicializando a Thread do jogo
     public void iniciarJogo() {
-        new GameThread(ga, this).start();
+        ga.initFundoArray();
+        gt = new GameThread(ga, this);
+        gt.start();
+        //scoreDisplay.setText("Pontos: 0");
+        //levelDisplay.setText("Nivel: 1");
     }
     
     public void atualizaPontos(int pontos) {
@@ -82,12 +87,13 @@ public class GameForm extends JFrame {
         gameAreaPlaceholder = new javax.swing.JPanel();
         scoreDisplay = new javax.swing.JLabel();
         levelDisplay = new javax.swing.JLabel();
+        btnMainMenu = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
         gameAreaPlaceholder.setBackground(new java.awt.Color(153, 153, 153));
-        gameAreaPlaceholder.setBorder(javax.swing.BorderFactory.createLineBorder(null));
+        gameAreaPlaceholder.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         javax.swing.GroupLayout gameAreaPlaceholderLayout = new javax.swing.GroupLayout(gameAreaPlaceholder);
         gameAreaPlaceholder.setLayout(gameAreaPlaceholderLayout);
@@ -106,35 +112,52 @@ public class GameForm extends JFrame {
         levelDisplay.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         levelDisplay.setText("Nivel: 1");
 
+        btnMainMenu.setText("Menu Principal");
+        btnMainMenu.setFocusable(false);
+        btnMainMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMainMenuActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(108, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(gameAreaPlaceholder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnMainMenu)
                     .addComponent(scoreDisplay)
                     .addComponent(levelDisplay))
-                .addGap(101, 101, 101))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(gameAreaPlaceholder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(scoreDisplay)
                         .addGap(18, 18, 18)
-                        .addComponent(levelDisplay))
-                    .addComponent(gameAreaPlaceholder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(levelDisplay)
+                        .addGap(209, 209, 209)
+                        .addComponent(btnMainMenu)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnMainMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMainMenuActionPerformed
+        gt.interrupt();
+        this.setVisible(false);
+        Main.mostrarStartupMenu();
+    }//GEN-LAST:event_btnMainMenuActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -144,6 +167,7 @@ public class GameForm extends JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnMainMenu;
     private javax.swing.JPanel gameAreaPlaceholder;
     private javax.swing.JLabel levelDisplay;
     private javax.swing.JLabel scoreDisplay;

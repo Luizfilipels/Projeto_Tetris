@@ -12,7 +12,7 @@ public class GameArea extends JPanel {
     private final int gridLinhas;
     private final int gridColunas;
     private final int gridTamanhoCelula;
-    private final Color[][] fundo;
+    private Color[][] fundo;
     
     private BlocoTetris[] blocos;
     
@@ -20,7 +20,7 @@ public class GameArea extends JPanel {
     
     //Construtor
     public GameArea(JPanel placeholder, int colunas) {
-        placeholder.setVisible(false);
+        //placeholder.setVisible(false);
         this.setBounds(placeholder.getBounds());
         this.setBackground(placeholder.getBackground());
         this.setBorder(placeholder.getBorder());
@@ -29,7 +29,7 @@ public class GameArea extends JPanel {
         gridTamanhoCelula = this.getBounds().width / gridColunas;
         gridLinhas = this.getBounds().height / gridTamanhoCelula;
         
-        fundo = new Color[gridLinhas][gridColunas];
+        
         
         
         blocos = new BlocoTetris[]{ new IShape(),
@@ -40,6 +40,10 @@ public class GameArea extends JPanel {
                                     new TShape(),
                                     new ZShape()
         };
+    }
+    
+    public void initFundoArray() {
+        fundo = new Color[gridLinhas][gridColunas];
     }
     
     public void gerarBloco() {
@@ -276,7 +280,7 @@ public class GameArea extends JPanel {
         }
     }
     
-    //metodo para desenhar o bloco em formato de L na GameArea (considerando como 1 <= pintado ; 0 <= não pintado
+    //metodo para desenhar o bloco na GameArea (considerando como 1 <= pintado ; 0 <= não pintado
     private void desenharBloco(Graphics g) {
         int alt = bloco.getAltura();
         int larg = bloco.getLargura();
