@@ -1,21 +1,70 @@
 package br.inatel.projetofinal.tetris.gui;
 
 import br.inatel.projetofinal.tetris.Main;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.Vector;
+import javax.swing.RowSorter.SortKey;
+import javax.swing.SortOrder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 
 public class LeaderboardForm extends javax.swing.JFrame {
     
     private DefaultTableModel tm;
+    private String rankingArquivo = "Ranking.txt";
+    private TableRowSorter<TableModel> sorter;
     
     public LeaderboardForm() {
         initComponents();
         initTableData();
+        initTableSorter();
     }
     
     private void initTableData() {
+        Vector ci = new Vector();
+        ci.add("Jogador");
+        ci.add("Pontuação");
+        
         tm = (DefaultTableModel) ranking.getModel();
+        
+        try {
+            FileInputStream fs = new FileInputStream(rankingArquivo);
+            ObjectInputStream os = new ObjectInputStream(fs);
+        
+            tm.setDataVector((Vector<Vector>)os.readObject(), ci);
+            fs.close();
+            os.close();
+        } catch(Exception e){}
     }
+    
+    private void initTableSorter() {
+        sorter = new TableRowSorter<>(tm);
+        ranking.setRowSorter(sorter);
+        
+        ArrayList<SortKey> keys = new ArrayList<>();
+        keys.add(new SortKey(1, SortOrder.DESCENDING));
+        
+        sorter.setSortKeys(keys);
+    }
+    
+    private void salvarRanking() {
+        
+        try {
+            FileOutputStream fs = new FileOutputStream(rankingArquivo);
+            ObjectOutputStream os = new ObjectOutputStream(fs);
+        
+            os.writeObject(tm.getDataVector());
+            os.close();
+            fs.close();
+        }
+        catch(Exception e) {}
+    } 
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -43,9 +92,16 @@ public class LeaderboardForm extends javax.swing.JFrame {
                 "Jogador", "Pontuação"
             }
         ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Integer.class
+            };
             boolean[] canEdit = new boolean [] {
                 false, false
             };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -87,6 +143,8 @@ public class LeaderboardForm extends javax.swing.JFrame {
 
     public void addPlayer(String nomePlayer, int score) {
         tm.addRow(new Object[] {nomePlayer, score});
+        sorter.sort();
+        salvarRanking();
         
         this.setVisible(true);
         

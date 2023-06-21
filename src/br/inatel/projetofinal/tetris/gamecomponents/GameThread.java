@@ -7,11 +7,11 @@ import br.inatel.projetofinal.tetris.gui.GameForm;
 public class GameThread extends Thread {
     private final GameArea ga;
     private final GameForm gf;
-    private int score;
+    private int score = 0;
     private int level = 1;
-    private int scorePorNivel = 3;
+    private final int scorePorNivel = 10;
     private int vel = 1000;
-    private int velPorNivel = 100;
+    private final int velPorNivel = 100;
     
     public GameThread(GameArea ga, GameForm gf) {
         this.ga = ga;
