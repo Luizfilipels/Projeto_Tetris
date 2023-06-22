@@ -11,6 +11,15 @@ import javax.swing.KeyStroke;
 
 public class GameForm extends JFrame {
     
+    
+    /*
+    Em resumo, a classe GameForm é responsável por exibir a interface gráfica 
+    do jogo Tetris, configurar os controles do jogo, iniciar o jogo, 
+    atualizar a exibição da pontuação e nível, e permitir que o jogador retorne ao menu principal.
+    */
+    
+    
+    
     private GameArea ga;
     private GameThread gt;
     

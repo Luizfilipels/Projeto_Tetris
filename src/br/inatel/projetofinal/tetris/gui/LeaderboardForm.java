@@ -13,6 +13,13 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+/*
+Essa classe representa uma janela de leaderboard do jogo, 
+onde os jogadores são exibidos em ordem decrescente de pontuação. 
+Os dados são carregados a partir de um arquivo chamado "Ranking.txt" e 
+são salvos no mesmo arquivo quando ocorrem alterações.
+O usuário pode voltar ao menu principal clicando no botão "Menu Principal".  
+*/
 
 public class LeaderboardForm extends javax.swing.JFrame {
     

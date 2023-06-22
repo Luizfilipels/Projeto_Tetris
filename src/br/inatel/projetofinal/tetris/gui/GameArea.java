@@ -6,7 +6,25 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Random;
 import javax.swing.JPanel;
+    
 
+    /*
+    Algumas das principais funcionalidades do código incluem:
+
+    - Definir as propriedades do painel do jogo com base em um painel de espaço reservado.
+    - Inicializar uma matriz para armazenar as cores dos blocos já posicionados no jogo.
+    - Gerar aleatoriamente um bloco do jogo Tetris e posicioná-lo no topo do grid.
+    - Verificar se o bloco atual está fora dos limites do grid do jogo.
+    - Mover o bloco para baixo, se não houver colisão com outros blocos ou com o limite inferior do grid.
+    - Mover o bloco para a direita, esquerda, ou fazer ele "cair" rapidamente.
+    - Rotacionar o bloco atualmente em movimento.
+    - Verificar se o bloco chegou ao final do grid do jogo ou se há colisão com outros blocos.
+    - Limpar linhas completas no grid, removendo-as e deslocando as linhas superiores para baixo.
+    - Desenhar o bloco em movimento e o grid de fundo na interface gráfica.
+    
+*/
+
+    
 public class GameArea extends JPanel {
     
     private final int gridLinhas;

@@ -4,6 +4,14 @@ import br.inatel.projetofinal.tetris.Main;
 import br.inatel.projetofinal.tetris.gui.GameArea;
 import br.inatel.projetofinal.tetris.gui.GameForm;
 
+
+/*
+a classe GameThread controla a lógica principal do jogo Tetris,
+atualizando o estado do jogo, a pontuação, o nível e a velocidade 
+do jogo à medida que o jogador joga.
+*/
+
+
 public class GameThread extends Thread {
     private final GameArea ga;
     private final GameForm gf;

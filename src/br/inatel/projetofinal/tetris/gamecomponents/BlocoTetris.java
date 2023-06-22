@@ -3,6 +3,16 @@ package br.inatel.projetofinal.tetris.gamecomponents;
 import java.awt.Color;
 import java.util.Random;
 
+
+/*
+Essa classe fornece os métodos necessários para 
+representar e controlar um bloco no jogo Tetris, 
+como movimentação, rotação e informações sobre a
+sua forma, posição e cor.
+*/
+
+
+
 public class BlocoTetris {
     private int[][] forma;
     private Color cor;
